@@ -1,12 +1,13 @@
 public class MeuArrayDinamico {
     private int[] dados;
-    private int tamanho;
+    private int tamanho; // quantos elementos realmente existem
 
     public MeuArrayDinamico(int capacidadeInicial) {
         this.dados = new int[capacidadeInicial];
         this.tamanho = 0;
     }
 
+    /** Dobra a capacidade do array interno. */
     private void resize() {
         int[] novo = new int[dados.length * 2];
         for (int i = 0; i < dados.length; i++)
@@ -14,21 +15,14 @@ public class MeuArrayDinamico {
         dados = novo;
     }
 
+    /** Adiciona 'valor' no final do array. */
     public void add(int valor) {
         if (tamanho == dados.length) resize();
         dados[tamanho] = valor;
         tamanho++;
     }
 
-    /** Remove o elemento na posicao 'indice'. */
-    public void remove(int indice) {
-        if (indice < 0 || indice >= tamanho)
-            throw new IndexOutOfBoundsException("Indice invalido: " + indice);
-        for (int i = indice; i < tamanho - 1; i++)
-            dados[i] = dados[i + 1];
-        tamanho--;
-    }
-
+    /** Retorna o elemento na posicao 'indice'. */
     public int get(int indice) {
         if (indice < 0 || indice >= tamanho)
             throw new IndexOutOfBoundsException("Indice invalido: " + indice);
@@ -39,6 +33,7 @@ public class MeuArrayDinamico {
         return tamanho;
     }
 
+    /** Imprime o array no formato [a, b, c]. */
     public void imprimir() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < tamanho; i++) {
@@ -49,22 +44,15 @@ public class MeuArrayDinamico {
         System.out.println(sb.toString());
     }
 
+    // === Teste ===
     public static void main(String[] args) {
-        // === Exercício 1 ===
         MeuArrayDinamico arr = new MeuArrayDinamico(2);
         arr.add(10);
         arr.add(20);
-        arr.imprimir();                               // [10, 20]
-        arr.add(30);                                  // resize aqui!
+        arr.imprimir();                              
+        arr.add(30);                                 
         arr.add(40);
-        arr.imprimir();                               // [10, 20, 30, 40]
-        System.out.println("Tamanho: " + arr.size()); // 4
-
-        // === Exercício 2 ===
-        arr.remove(1);                                // remove o 20
-        arr.imprimir();                               // [10, 30, 40]
-        arr.remove(0);                                // remove o 10
-        arr.imprimir();                               // [30, 40]
-        System.out.println("Tamanho: " + arr.size()); // 2
+        arr.imprimir();                             
+        System.out.println("Tamanho: " + arr.size());
     }
 }
